@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>取得所有資料</title>
+  </head>
+  <body>
+    <button onclick="getData()">取得所有資料</button>
+    <div id="dataContainer"></div>
+    <img src="" alt="" />
+
+    <script>
+      function getData() {
+        fetch("/s123/ShopCarouselServlet")
+          .then((response) => response.json())
+          .then((data) => {
+            // 在這裡處理回應的資料
+            console.log(data);
+            const dataContainer = document.getElementById("dataContainer");
+
+            // 清空先前的內容
+            dataContainer.innerHTML = "";
+
+            // 輸出每個資料
+            data.forEach((carousel) => {
+              const no = carousel.shopCarouselNo;
+              const title = carousel.shopCarouselTitle;
+              const text = carousel.shopCarouselText;
+              const start = carousel.shopCarouselStartTime;
+              const end = carousel.shopCarouselEndTime;
+              const state = carousel.shopCarouselState;
+              const url = carousel.shopCarouselUrl;
+
+              // 建立元素並插入資料
+              const titleElement = document.createElement("p");
+              titleElement.textContent = title;
+
+              const textElement = document.createElement("p");
+              textElement.textContent = text;
+
+              // 建立開始時間元素
+              const startTimeElement = document.createElement("p");
+              startTimeElement.textContent = `開始時間: ${start}`;
+
+              // 建立結束時間元素
+              const endTimeElement = document.createElement("p");
+              endTimeElement.textContent = `結束時間: ${end}`;
+
+              // 建立狀態元素
+              const stateElement = document.createElement("p");
+              stateElement.textContent = `狀態: ${state}`;
+
+              // 建立連結元素
+              const linkElement = document.createElement("a");
+              linkElement.href = url;
+              linkElement.textContent = "連結";
+
+              // 建立圖片元素
+              const picElement = document.createElement("img");
+              picElement.src = `/s123/DBPicReader?shopCarouselNo=${no}`;
+
+              // 將元素插入容器中
+              dataContainer.appendChild(titleElement);
+              dataContainer.appendChild(textElement);
+              dataContainer.appendChild(startTimeElement);
+              dataContainer.appendChild(endTimeElement);
+              dataContainer.appendChild(stateElement);
+              dataContainer.appendChild(linkElement);
+              dataContainer.appendChild(picElement);
+            });
+          })
+          .catch((error) => {
+            // 處理錯誤
+            console.error("Error:", error);
+          });
+      }
+    </script>
+  </body>
+</html>
