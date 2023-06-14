@@ -105,12 +105,22 @@ public class ShopCarouselServlet extends HttpServlet {
             Integer shopCarouselNo = json.get("updateShopCarouselNo").getAsInt();
             String shopCarouselTitle = json.get("updateShopCarouselTitle").getAsString();
             String shopCarouselText = json.get("updateShopCarouselText").getAsString();
+            
+            
             // 將 Base64 字串轉換為二進位資料
             String base64Image = json.get("updateShopCarouselPic").getAsString();
-            // Base64字串中移除資料類型的部分 data:image/jpeg;base64,/!!!
-            base64Image = base64Image.substring(base64Image.indexOf(",") + 1);
-            // System.out.println(base64Image);                        
-            byte[] shopCarouselPic = Base64.getDecoder().decode(base64Image);
+          
+            if (base64Image.isEmpty()) {
+                ShopCarouselService svc = new ShopCarouselService();
+                byte[] shopCarouselPic = svc.getOneShopCarousel(shopCarouselNo).getShopCarouselPic();
+            } else {
+                // Base64字串中移除資料類型的部分 data:image/jpeg;base64,/!!!
+                base64Image = base64Image.substring(base64Image.indexOf(",") + 1);
+                byte[] shopCarouselPic = Base64.getDecoder().decode(base64Image);
+            }
+
+
+            
             Date shopCarouselStartTime = Date.valueOf(json.get("updateShopCarouselStartTime").getAsString());
             Date shopCarouselEndTime = Date.valueOf(json.get("updateShopCarouselEndTime").getAsString());
             Integer shopCarouselState = json.get("updateShopCarouselState").getAsInt();
@@ -120,8 +130,6 @@ public class ShopCarouselServlet extends HttpServlet {
             svc.updateShopCarousel(shopCarouselNo,shopCarouselTitle,shopCarouselText,shopCarouselPic,shopCarouselStartTime,shopCarouselEndTime
             		,shopCarouselState,shopCarouselUrl);
         	
-//        	svc.updateShopCarousel(shopCarouselTitle,shopCarouselText,shopCarouselPic,shopCarouselStartTime,shopCarouselEndTime
-//            		,shopCarouselState,shopCarouselUrl);
         	
         }
         
