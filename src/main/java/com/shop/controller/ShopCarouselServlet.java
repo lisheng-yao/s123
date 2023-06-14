@@ -12,7 +12,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
+import javax.servlet.http.HttpSession;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
@@ -42,9 +42,9 @@ public class ShopCarouselServlet extends HttpServlet {
 		
 
 		List<ShopCarouselVO> list = shopCarouselService.getAll();
-//		System.out.println(list);
-//		out.print(list);
+
 		out.write(gson.toJson(list));
+
 		
 //	================================== 新增資料 =============================================
 		

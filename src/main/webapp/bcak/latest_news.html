@@ -703,6 +703,8 @@
       );
     </script>
 
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
     <!-- <script>
       // 刪除按鈕的點擊事件處理tr jquary寫法
 
@@ -800,7 +802,8 @@
               const pic = carousel.shopCarouselPic;
               const startTime = carousel.shopCarouselStartTime;
               const endTime = carousel.shopCarouselEndTime;
-              const state =
+              const state = carousel.shopCarouselState;
+              const states =
                 carousel.shopCarouselState === 1 ? "啟用" : "未啟用";
               const url = carousel.shopCarouselUrl;
               // console.log(url);
@@ -819,7 +822,7 @@
                     <td>${no}</td>
                     <td>${title}</td>
                     <td><img src="/s123/DBPicReader?shopCarouselNo=${no}" style="max-width: 250px; max-height: 150px;"></td>
-                    <td>${state}</td>
+                    <td>${states}</td>
                     <td>${startTime}</td>
                     <td>${endTime}</td>
                     <td>
@@ -888,16 +891,16 @@
                                         class="form-select"
                                         id="update-state-${no}"
                                         aria-label="Floating label select example"
-                                        value="${state}"
                                       >
+                                        <option value="" selected>請選擇</option>
                                         <option value="1">啟用</option>
-                                        <option value="0">停用</option>
+                                        <option value="0">未啟用</option>
                                       </select>
                                     </div>
                                   </div>
                                   <div class="mb-3">
                                     <label
-                                      for="update-statTim-${no}e"
+                                      for="update-statTim-${no}"
                                       class="col-form-label"
                                       >開始時間</label
                                     >
@@ -1034,17 +1037,19 @@
         })
           .then((response) => response.json())
           .then((responseData) => {
-            // 在這裡處理回應的資料
-            console.log(responseData);
-            // 清空表單
-            document.getElementById("recipient-title").value = "";
-            document.getElementById("recipient-text").value = "";
-            document.getElementById("recipient-statTime").value = "";
-            document.getElementById("recipient-endTime").value = "";
-            document.getElementById("formFile").value = "";
-            document.getElementById("recipient-url").value = "";
-            // 頁面重整
-            location.reload();
+            Swal.fire("新增完成", "你很棒唉!", "success")
+              .then(() => {
+                // 清空表單
+                document.getElementById("recipient-title").value = "";
+                document.getElementById("recipient-text").value = "";
+                document.getElementById("recipient-statTime").value = "";
+                document.getElementById("recipient-endTime").value = "";
+                document.getElementById("formFile").value = "";
+                document.getElementById("recipient-url").value = "";
+              })
+              .then(() => {
+                location.reload();
+              });
           })
           .catch((error) => {
             // 處理錯誤
@@ -1096,7 +1101,12 @@
         const file = fileInput.files[0];
         // console.log(file);
 
-        const base64Image = await convertImageToBase64(file);
+        let base64Image = ""; // 預設為空字串
+
+        if (file) {
+          // 如果有選擇圖片，才進行轉123
+          base64Image = await convertImageToBase64(file);
+        }
 
         const data = {
           updateShopCarouselNo: no,
@@ -1108,7 +1118,7 @@
           updateShopCarouselUrl: url,
           updateShopCarouselState: state,
         };
-        // console.log(data);
+        console.log(data);
 
         fetch("/s123/ShopCarouselServlet", {
           method: "POST",
@@ -1121,7 +1131,10 @@
           .then((response) => response.json())
           .then((responseData) => {
             console.log(responseData);
-            location.reload();
+            Swal.fire("修改完成", "你很棒唉!", "success").then(() => {
+              location.reload();
+            });
+            // location.reload();
           })
           .catch((error) => {
             console.error("Error:", error);

@@ -25,7 +25,7 @@ public class ShopCarouselDAOimpl implements ShopCarouselDAO {
 		}
 	}
 
-	private static final String GET_ALL_STMT = "SELECT shopCarouselNo,shopCarouselTitle,shopCarouselText,shopCarouselPic,shopCarouselStartTime,shopCarouselEndTime,shopCarouselState,shopCarouselUrl FROM shop_carousel";
+	private static final String GET_ALL_STMT = "SELECT shopCarouselNo,shopCarouselTitle,shopCarouselText,shopCarouselStartTime,shopCarouselEndTime,shopCarouselState,shopCarouselUrl FROM shop_carousel";
 	private static final String INSERT_STMT = "INSERT INTO shop_carousel (shopCarouselTitle,shopCarouselText,shopCarouselPic,shopCarouselStartTime,shopCarouselEndTime,shopCarouselState,shopCarouselUrl) VALUES (?, ?, ?, ?, ?,?,?)";
 	private static final String GET_ONE_STMT = "SELECT shopCarouselNo,shopCarouselTitle,shopCarouselText,shopCarouselPic,shopCarouselStartTime,shopCarouselEndTime,shopCarouselState,shopCarouselUrl FROM shop_carousel WHERE shopCarouselNo = ?";
 	private static final String UPDATE = "UPDATE shop_carousel set shopCarouselTitle = ?,shopCarouselText = ?,shopCarouselPic = ?,shopCarouselStartTime = ?,shopCarouselEndTime = ?,shopCarouselState = ?,shopCarouselUrl = ? WHERE shopCarouselNo = ?";
@@ -52,7 +52,7 @@ public class ShopCarouselDAOimpl implements ShopCarouselDAO {
 				shopCarouselVO.setShopCarouselNo(rs.getInt("shopCarouselNO"));
 				shopCarouselVO.setShopCarouselTitle(rs.getString("shopCarouselTitle"));
 				shopCarouselVO.setShopCarouselText(rs.getString("shopCarouselText"));
-				shopCarouselVO.setShopCarouselPic(rs.getBytes("shopCarouselPic"));
+				// shopCarouselVO.setShopCarouselPic(rs.getBytes("shopCarouselPic")); 圖片用不到不查了
 				// System.out.println(rs.getBytes("shopCarouselPic"));
 				shopCarouselVO.setShopCarouselStartTime(rs.getDate("shopCarouselStartTime"));
 				shopCarouselVO.setShopCarouselEndTime(rs.getDate("shopCarouselEndTime"));
