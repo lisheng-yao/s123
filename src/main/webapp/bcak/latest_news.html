@@ -892,9 +892,12 @@
                                         id="update-state-${no}"
                                         aria-label="Floating label select example"
                                       >
-                                        <option value="1" ${state} === 1 ? "selected" : ""
+                                        <option value="1" ${
+                                          state == 1 ? "selected" : ""
                                         }>啟用</option>
-                                        <option value="0" ${state} === 0 ? "selected" : ""
+                                        <option value="0" ${
+                                          state == 0 ? "selected" : ""
+                                        }
                                         >未啟用</option>
                                       </select>
                                     </div>
